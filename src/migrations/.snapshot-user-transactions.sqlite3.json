@@ -1,0 +1,83 @@
+{
+  "namespaces": [],
+  "tables": [
+    {
+      "columns": {
+        "reference": {
+          "name": "reference",
+          "type": "varchar(8)",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "date": {
+          "name": "date",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "amount": {
+          "name": "amount",
+          "type": "decimal(16,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 16,
+          "scale": 2,
+          "mappedType": "decimal"
+        },
+        "type": {
+          "name": "type",
+          "type": "char(8)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "unknown"
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar(64)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "user_email": {
+          "name": "user_email",
+          "type": "varchar(52)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "transaction",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "reference"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    }
+  ],
+  "nativeEnums": {}
+}
