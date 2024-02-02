@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 
-export class UserSummary {
+export class UserSummaryDto {
   @Transform(({ value }) => Object.values(value).map((v) => `${v}`), {
     toClassOnly: true,
   })
