@@ -6,6 +6,14 @@ import { Transaction } from '../entities/transaction';
 import { TransactionRepository } from '../repositories/transaction.repository';
 import { TransactionService } from '../services/transaction.service';
 
+/**
+ * Transactions module that encapsulates all things
+ * related to transactions.
+ *
+ * @export
+ * @class TransactionModule
+ * @typedef {TransactionModule}
+ */
 @Module({
   imports: [
     MikroOrmModule.forFeature({

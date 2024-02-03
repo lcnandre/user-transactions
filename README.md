@@ -1,18 +1,38 @@
-# user-transactions
-API to register monetary transactions.
+# User Transactions API
 
-To create a new migration, run:
+REST API to register monetary transactions.
 
-`npx mikro-orm migration:create --name=<migration title>`
 
-To check if the schema is up to date, run:
+## Stack
 
-`npx mikro-orm migration:check`
+- Typescript
+- Node.jS 18
+- NestJS 10
+- Fastify
+- Helm
+- Swagger
+- MikroORM
+- SQLite
 
-To run the migrations, run:
 
-`npx mikro-orm migration:up`
+## Requirements
+The project requires [Node.JS](https://nodejs.org/) to run.
 
-To rollback migrations one step, run:
 
-`npx mikro-orm migration:down`
+## Running the project
+
+To run the project, first create a `.env` file according to [.env.template](./.env.template) and run the following commands:
+
+```
+npm install
+npx mikro-orm migration:up
+npm run start:dev
+```
+
+After running, the API will be available at http://localhost:3000 by default.
+
+To run the unit tests with code coverage repot:
+
+`npm run test:cov`
+
+After coverage is collected, a report will be available on the `coverage/lcov-report/index.html` directory.

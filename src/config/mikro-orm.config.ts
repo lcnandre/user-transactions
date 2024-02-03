@@ -5,6 +5,11 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 
+/**
+ * Configuration options for MikroORM.
+ *
+ * @type {MikroOrmModuleOptions}
+ */
 const mikroOrmConfig: MikroOrmModuleOptions = {
   driver: SqliteDriver,
   dbName: process.env.DB_NAME || 'user-transactions.sqlite3',

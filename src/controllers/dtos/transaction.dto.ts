@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsDateString, IsDefined, IsEmail, IsIn, IsNumberString, IsString } from 'class-validator';
 
@@ -22,6 +23,7 @@ export class TransactionDto {
    */
   @IsDefined()
   @IsString()
+  @ApiProperty()
   reference: string;
 
   /**
@@ -34,6 +36,7 @@ export class TransactionDto {
   @Transform(({ value }) => value.toISOString().substr(0, 10), {
     toClassOnly: true,
   })
+  @ApiProperty()
   date: string;
 
   /**
@@ -47,6 +50,7 @@ export class TransactionDto {
   @Transform(({ value }) => value.toFixed(2), {
     toClassOnly: true,
   })
+  @ApiProperty()
   amount: string;
 
   /**
@@ -59,6 +63,7 @@ export class TransactionDto {
   @IsString()
   @IsIn(transactionTypes)
   @IsValidTransactionType()
+  @ApiProperty()
   type: TransactionType;
 
   /**
@@ -68,6 +73,7 @@ export class TransactionDto {
    */
   @IsDefined()
   @IsString()
+  @ApiProperty()
   category: string;
 
   /**
@@ -77,5 +83,6 @@ export class TransactionDto {
    */
   @IsDefined()
   @IsEmail()
+  @ApiProperty()
   user_email: string;
 }

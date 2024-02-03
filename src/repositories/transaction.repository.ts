@@ -5,14 +5,41 @@ import { Transaction } from '../entities/transaction';
 import { UserSummary } from '../types/user-summary.type';
 import { UserTotal } from '../types/user-total.type';
 
+/**
+ * Database repository for transactions.
+ *
+ * @export
+ * @class TransactionRepository
+ * @typedef {TransactionRepository}
+ */
 @Injectable()
 export class TransactionRepository {
+  /**
+   * Creates an instance of TransactionRepository.
+   *
+   * @constructor
+   * @param {EntityManager} em an instance of the MikroORM entity manager.
+   */
   constructor(private readonly em: EntityManager) {}
 
+  /**
+   * Inserts transactions on the database.
+   *
+   * @async
+   * @param {(Transaction | Transaction[])} transactions single or multiple transactions to be inserted on the DB.
+   * @returns {Promise<void>}
+   */
   async insertTransactions(transactions: Transaction | Transaction[]): Promise<void> {
     await this.em.createQueryBuilder(Transaction).insert(transactions).onConflict(['reference', 'user_email']).ignore();
   }
 
+  /**
+   * Retrieves a list of all transactions of the DB
+   * grouped by user and aggregated per type.
+   *
+   * @async
+   * @returns {Promise<UserTotal[]>}
+   */
   async getTotalsByUser(): Promise<UserTotal[]> {
     const result = await this.em
       .createQueryBuilder(Transaction, 't')
@@ -27,6 +54,14 @@ export class TransactionRepository {
     return result as unknown as UserTotal[];
   }
 
+  /**
+   * Retrieves an aggregation of all transactioned amounts
+   * for a single user, grouped by category.
+   *
+   * @async
+   * @param {string} userEmail User's email address to filter.
+   * @returns {Promise<UserSummary>}
+   */
   async getUserSummary(userEmail: string): Promise<UserSummary> {
     const inflowQuery = this.em
       .createQueryBuilder(Transaction, 't')

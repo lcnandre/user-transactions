@@ -2,6 +2,14 @@ import { ValidationArguments, registerDecorator } from 'class-validator';
 
 import { TransactionDto } from '../controllers/dtos/transaction.dto';
 
+/**
+ * Custom class-validator decorator to disallow:
+ * - negative values in inflow transactions
+ * - positive values in outflow transactions
+ *
+ * @export
+ * @returns {(object: TransactionDto, propertyName: string) => void}
+ */
 export function IsValidTransactionType() {
   return function (object: TransactionDto, propertyName: string) {
     registerDecorator({
