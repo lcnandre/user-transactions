@@ -31,7 +31,7 @@ npm run start:dev
 
 After running, the API will be available at http://localhost:3000 by default.
 
-To run the unit tests with code coverage repot:
+To run the unit tests with code coverage report:
 
 `npm run test:cov`
 
