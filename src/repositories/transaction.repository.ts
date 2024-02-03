@@ -1,5 +1,4 @@
-import { InjectEntityManager } from '@mikro-orm/nestjs';
-import { EntityManager } from '@mikro-orm/sqlite';
+import { EntityManager, raw } from '@mikro-orm/sqlite';
 import { Injectable } from '@nestjs/common';
 
 import { Transaction } from '../entities/transaction';
@@ -8,24 +7,21 @@ import { UserTotal } from '../types/user-total.type';
 
 @Injectable()
 export class TransactionRepository {
-  constructor(
-    @InjectEntityManager('db')
-    private readonly em: EntityManager,
-  ) {}
+  constructor(private readonly em: EntityManager) {}
 
   async insertTransactions(transactions: Transaction | Transaction[]): Promise<void> {
-    await this.em.persist(transactions).flush();
+    await this.em.createQueryBuilder(Transaction).insert(transactions).onConflict(['reference', 'user_email']).ignore();
   }
 
   async getTotalsByUser(): Promise<UserTotal[]> {
     const result = await this.em
-      .createQueryBuilder(Transaction)
+      .createQueryBuilder(Transaction, 't')
       .select([
-        'user_email',
-        "sum(case when type = 'inflow' then amount else 0 end) as total_inflow",
-        "sum(case when type = 'outflow' then amount else 0 end) as total_outflow",
+        't.user_email',
+        raw("sum(case when t.type = 'inflow' then t.amount else 0 end) as `total_inflow`"),
+        raw("sum(case when t.type = 'outflow' then t.amount else 0 end) as `total_outflow`"),
       ])
-      .groupBy('user_email')
+      .groupBy('t.user_email')
       .execute();
 
     return result as unknown as UserTotal[];
@@ -33,22 +29,22 @@ export class TransactionRepository {
 
   async getUserSummary(userEmail: string): Promise<UserSummary> {
     const inflowQuery = this.em
-      .createQueryBuilder(Transaction)
-      .select(['category', 'sum(amount) as total'])
+      .createQueryBuilder(Transaction, 't')
+      .select(['t.category', raw('sum(t.amount) as total')])
       .where({
         user_email: userEmail,
         type: 'inflow',
       })
-      .groupBy('category')
+      .groupBy('t.category')
       .execute();
     const outflowQuery = this.em
-      .createQueryBuilder(Transaction)
-      .select(['category', 'sum(amount) as total'])
+      .createQueryBuilder(Transaction, 't')
+      .select(['t.category', raw('sum(t.amount) as total')])
       .where({
         user_email: userEmail,
         type: 'outflow',
       })
-      .groupBy('category')
+      .groupBy('t.category')
       .execute();
 
     const inflowResult = await inflowQuery;

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@fastify/helmet": "^11.1.1",
+    "@fastify/static": "^6.12.0",
     "@mikro-orm/core": "^6.0.7",
     "@mikro-orm/migrations": "^6.0.7",
     "@mikro-orm/nestjs": "^5.2.3",
@@ -75,15 +76,15 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
+    "rootDir": ".",
+    "testRegex": "./src/.*.spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "src/**/!(config|migrations|modules)/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
+    "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   },
   "mikro-orm": {

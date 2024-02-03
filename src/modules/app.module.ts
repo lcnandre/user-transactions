@@ -3,8 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { TransactionModule } from './transaction.module';
-import config, { schema as configSchema } from '../config/config';
-import mikroOrmConfig from '../config/mikro-orm.config';
+import config, { schema as configSchema } from '../config/app.config';
 
 @Module({
   imports: [
@@ -13,9 +12,7 @@ import mikroOrmConfig from '../config/mikro-orm.config';
       load: [config],
       validationSchema: configSchema,
     }),
-    MikroOrmModule.forRootAsync({
-      ...mikroOrmConfig,
-    }),
+    MikroOrmModule.forRoot(),
     TransactionModule,
   ],
 })

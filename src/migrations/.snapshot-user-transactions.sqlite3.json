@@ -5,12 +5,21 @@
       "columns": {
         "reference": {
           "name": "reference",
-          "type": "varchar(8)",
-          "unsigned": true,
-          "autoincrement": true,
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
+        },
+        "user_email": {
+          "name": "user_email",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
         },
         "date": {
           "name": "date",
@@ -24,41 +33,30 @@
         },
         "amount": {
           "name": "amount",
-          "type": "decimal(16,2)",
+          "type": "integer",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "precision": 16,
-          "scale": 2,
-          "mappedType": "decimal"
+          "mappedType": "integer"
         },
         "type": {
           "name": "type",
-          "type": "char(8)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "unknown"
+          "mappedType": "text"
         },
         "category": {
           "name": "category",
-          "type": "varchar(64)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
-        },
-        "user_email": {
-          "name": "user_email",
-          "type": "varchar(52)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         }
       },
       "name": "transaction",
@@ -66,9 +64,10 @@
         {
           "keyName": "primary",
           "columnNames": [
-            "reference"
+            "reference",
+            "user_email"
           ],
-          "composite": false,
+          "composite": true,
           "constraint": true,
           "primary": true,
           "unique": true

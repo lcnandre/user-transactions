@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, PrimaryKeyProp, Property } from '@mikro-orm/core';
 
 /**
  * Represents a monetary transaction for a user.
@@ -15,8 +15,16 @@ export class Transaction {
    *
    * @type {string}
    */
-  @PrimaryKey({ autoincrement: true, columnType: 'varchar(8)' })
+  @PrimaryKey()
   reference: string;
+
+  /**
+   * E-mail address of the account's holder.
+   *
+   * @type {string}
+   */
+  @PrimaryKey()
+  user_email: string;
 
   /**
    * Date the transaction was issued.
@@ -32,7 +40,7 @@ export class Transaction {
    *
    * @type {number}
    */
-  @Property({ columnType: 'decimal(16,2)' })
+  @Property()
   amount: number;
 
   /**
@@ -41,7 +49,7 @@ export class Transaction {
    *
    * @type {('inflow' | 'outflow')}
    */
-  @Property({ columnType: 'char(8)' })
+  @Property()
   type: 'inflow' | 'outflow';
 
   /**
@@ -49,14 +57,8 @@ export class Transaction {
    *
    * @type {string}
    */
-  @Property({ columnType: 'varchar(64)' })
+  @Property()
   category: string;
 
-  /**
-   * E-mail address of the account's holder.
-   *
-   * @type {string}
-   */
-  @Property({ columnType: 'varchar(52)' })
-  user_email: string;
+  [PrimaryKeyProp]?: ['reference', 'user_email'];
 }

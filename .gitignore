@@ -104,6 +104,9 @@ dist
 .temp
 .cache
 
+# Mikro-ORM temp directory
+temp
+
 # Docusaurus cache and generated files
 .docusaurus
 
