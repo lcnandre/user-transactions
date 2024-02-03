@@ -1,4 +1,5 @@
 import { Entity, PrimaryKey, PrimaryKeyProp, Property } from '@mikro-orm/core';
+import { Transform } from 'class-transformer';
 
 /**
  * Represents a monetary transaction for a user.
@@ -32,6 +33,9 @@ export class Transaction {
    * @type {Date}
    */
   @Property()
+  @Transform(({ value }) => new Date(value), {
+    toClassOnly: true,
+  })
   date: Date;
 
   /**
@@ -41,6 +45,9 @@ export class Transaction {
    * @type {number}
    */
   @Property()
+  @Transform(({ value }) => parseFloat(value), {
+    toClassOnly: true,
+  })
   amount: number;
 
   /**

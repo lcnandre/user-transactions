@@ -1,5 +1,7 @@
+import { UnprocessableEntityException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 
+import { TransactionBulkDto } from './dtos/transaction-bulk.dto';
 import { TransactionDto } from './dtos/transaction.dto';
 import { TransactionController } from './transaction.controller';
 import { TransactionServiceMock } from '../../mocks/transaction.service.mock';
@@ -24,11 +26,48 @@ describe('TransactionController', () => {
   });
 
   it('Should receive a single transaction', async () => {
-    await expect(controller.receiveTransaction({} as TransactionDto)).resolves.toBeUndefined();
+    await expect(
+      controller.receiveTransaction({
+        reference: '000051',
+        date: '2020-01-03',
+        amount: '-51.13',
+        type: 'outflow',
+        category: 'groceries',
+        user_email: 'janedoe@email.com',
+      }),
+    ).resolves.toBeUndefined();
+  });
+
+  it('Should validate the transactions input when receiving', async () => {
+    await expect(controller.receiveTransaction(new TransactionDto())).rejects.toThrow(UnprocessableEntityException);
+    await expect(controller.receiveBulkTransactions(new TransactionBulkDto())).rejects.toThrow(
+      UnprocessableEntityException,
+    );
   });
 
   it('Should receive bulk transactions', async () => {
-    await expect(controller.receiveBulkTransactions([])).resolves.toBeUndefined();
+    await expect(
+      controller.receiveBulkTransactions({
+        transactions: [
+          {
+            reference: '000051',
+            date: '2020-01-03',
+            amount: '-51.13',
+            type: 'outflow',
+            category: 'groceries',
+            user_email: 'janedoe@email.com',
+          },
+          {
+            reference: '000052',
+            date: '2020-01-10',
+            amount: '2500.72',
+            type: 'inflow',
+            category: 'salary',
+            user_email: 'janedoe@email.com',
+          },
+        ],
+      } as TransactionBulkDto),
+    ).resolves.toBeUndefined();
   });
 
   it('Should get total transactions by user', async () => {

@@ -31,7 +31,7 @@ export class TransactionDto {
    */
   @IsDefined()
   @IsDateString()
-  @Transform(({ value }) => new Date(value), {
+  @Transform(({ value }) => value.toISOString().substr(0, 10), {
     toClassOnly: true,
   })
   date: string;
@@ -44,7 +44,7 @@ export class TransactionDto {
    */
   @IsDefined()
   @IsNumberString()
-  @Transform(({ value }) => parseFloat(value), {
+  @Transform(({ value }) => value.toFixed(2), {
     toClassOnly: true,
   })
   amount: string;
